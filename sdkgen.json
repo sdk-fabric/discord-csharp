@@ -1,0 +1,9 @@
+{
+  "type": "client-csharp",
+  "require": {
+    "sdkfabric/discord": {
+      "target": "./src/SdkFabric.",
+      "namespace": "SdkFabric."
+    }
+  }
+}
