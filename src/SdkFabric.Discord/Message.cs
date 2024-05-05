@@ -19,4 +19,8 @@ public class Message
     public MessageAllowedMentions? AllowedMentions { get; set; }
     [JsonPropertyName("message_reference")]
     public string? MessageReference { get; set; }
+    [JsonPropertyName("flags")]
+    public int? Flags { get; set; }
+    [JsonPropertyName("enforce_nonce")]
+    public bool? EnforceNonce { get; set; }
 }
