@@ -28,7 +28,7 @@ public class ChannelTag : TagAbstract {
 
 
     /**
-     * Pin a message in a channel. Requires the MANAGE_MESSAGES permission. Returns a 204 empty response on success. Fires a Channel Pins Update Gateway event.
+     * Returns all pinned messages in the channel as an array of message objects.
      */
     public async Task<List<Message>> GetPins(string channelId)
     {
