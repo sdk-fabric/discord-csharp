@@ -45,11 +45,6 @@ public class ChannelMessageTag : TagAbstract {
             return this.Parser.Parse<List<Message>>(response.Content);
         }
 
-        if (response.ErrorException != null)
-        {
-            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
-        }
-
         throw (int) response.StatusCode switch
         {
             _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
@@ -79,11 +74,6 @@ public class ChannelMessageTag : TagAbstract {
             return this.Parser.Parse<Message>(response.Content);
         }
 
-        if (response.ErrorException != null)
-        {
-            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
-        }
-
         throw (int) response.StatusCode switch
         {
             _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
@@ -111,11 +101,6 @@ public class ChannelMessageTag : TagAbstract {
         if (response.IsSuccessful)
         {
             return this.Parser.Parse<Message>(response.Content);
-        }
-
-        if (response.ErrorException != null)
-        {
-            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
         }
 
         throw (int) response.StatusCode switch
@@ -148,11 +133,6 @@ public class ChannelMessageTag : TagAbstract {
             return this.Parser.Parse<Message>(response.Content);
         }
 
-        if (response.ErrorException != null)
-        {
-            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
-        }
-
         throw (int) response.StatusCode switch
         {
             _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
@@ -182,11 +162,6 @@ public class ChannelMessageTag : TagAbstract {
             return;
         }
 
-        if (response.ErrorException != null)
-        {
-            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
-        }
-
         throw (int) response.StatusCode switch
         {
             _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
@@ -214,11 +189,6 @@ public class ChannelMessageTag : TagAbstract {
         if (response.IsSuccessful)
         {
             return this.Parser.Parse<Message>(response.Content);
-        }
-
-        if (response.ErrorException != null)
-        {
-            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
         }
 
         throw (int) response.StatusCode switch
