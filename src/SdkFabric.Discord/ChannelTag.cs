@@ -27,4 +27,38 @@ public class ChannelTag : TagAbstract {
     }
 
 
+    /**
+     * Pin a message in a channel. Requires the MANAGE_MESSAGES permission. Returns a 204 empty response on success. Fires a Channel Pins Update Gateway event.
+     */
+    public async Task<List<Message>> GetPins(string channelId)
+    {
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("channel_id", channelId);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/channels/:channel_id/pins", pathParams), Method.Get);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            return this.Parser.Parse<List<Message>>(response.Content);
+        }
+
+        if (response.ErrorException != null)
+        {
+            throw new ClientException("An unknown error occurred: " + response.ErrorException.Message, response.ErrorException);
+        }
+
+        throw (int) response.StatusCode switch
+        {
+            _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
+        };
+    }
+
+
 }
