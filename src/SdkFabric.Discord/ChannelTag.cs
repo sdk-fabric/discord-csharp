@@ -28,6 +28,34 @@ public class ChannelTag : TagAbstract {
 
 
     /**
+     * Get a channel by ID. Returns a channel object.
+     */
+    public async Task<Channel> Get(string channelId)
+    {
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("channel_id", channelId);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/channels/:channel_id", pathParams), Method.Get);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            return this.Parser.Parse<Channel>(response.Content);
+        }
+
+        throw (int) response.StatusCode switch
+        {
+            _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
+        };
+    }
+
+    /**
      * Returns all pinned messages in the channel as an array of message objects.
      */
     public async Task<List<Message>> GetPins(string channelId)
