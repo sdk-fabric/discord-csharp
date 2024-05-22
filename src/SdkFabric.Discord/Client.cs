@@ -30,8 +30,8 @@ public class Client : ClientAbstract
 
 
 
-    public static Client Build(string clientId, string clientSecret, ITokenStore tokenStore, List<string> scopes)
+    public static Client Build(string token)
     {
-        return new Client("https://discord.com/api/v10", new OAuth2(clientId, clientSecret, "https://discord.com/api/oauth2/token", "https://discord.com/oauth2/authorize", tokenStore, scopes));
+        return new Client("https://discord.com/api/v10", new HttpBearer(token));
     }
 }

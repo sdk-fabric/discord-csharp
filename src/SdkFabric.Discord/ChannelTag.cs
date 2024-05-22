@@ -26,6 +26,14 @@ public class ChannelTag : TagAbstract {
         );
     }
 
+    public ChannelReactionTag Reaction()
+    {
+        return new ChannelReactionTag(
+            this.HttpClient,
+            this.Parser
+        );
+    }
+
 
     /**
      * Get a channel by ID. Returns a channel object.
