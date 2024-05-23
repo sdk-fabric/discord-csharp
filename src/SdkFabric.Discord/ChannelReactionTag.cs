@@ -49,5 +49,31 @@ public class ChannelReactionTag : TagAbstract {
         };
     }
 
+    public async void DeleteAll(string channelId, string messageId)
+    {
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("channel_id", channelId);
+        pathParams.Add("message_id", messageId);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/channels/:channel_id/messages/:message_id/reactions", pathParams), Method.Delete);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            return;
+        }
+
+        throw (int) response.StatusCode switch
+        {
+            _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
+        };
+    }
+
 
 }
