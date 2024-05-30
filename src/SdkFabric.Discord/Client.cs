@@ -28,6 +28,14 @@ public class Client : ClientAbstract
         );
     }
 
+    public UserTag User()
+    {
+        return new UserTag(
+            this.HttpClient,
+            this.Parser
+        );
+    }
+
 
 
     public static Client Build(string token)
