@@ -18,22 +18,6 @@ public class ChannelTag : TagAbstract {
     {
     }
 
-    public ChannelMessageTag Message()
-    {
-        return new ChannelMessageTag(
-            this.HttpClient,
-            this.Parser
-        );
-    }
-
-    public ChannelReactionTag Reaction()
-    {
-        return new ChannelReactionTag(
-            this.HttpClient,
-            this.Parser
-        );
-    }
-
 
     /**
      * Get a channel by ID. Returns a channel object.
@@ -50,26 +34,44 @@ public class ChannelTag : TagAbstract {
         RestRequest request = new(this.Parser.Url("/channels/:channel_id", pathParams), Method.Get);
         this.Parser.Query(request, queryParams, queryStructNames);
 
+
         RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
         if (response.IsSuccessful)
         {
-            return this.Parser.Parse<Channel>(response.Content);
+            var data = this.Parser.Parse<Channel>(response.Content);
+
+            return data;
         }
 
-        throw (int) response.StatusCode switch
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 400)
         {
-            400 => new ErrorException(this.Parser.Parse<Error>(response.Content)),
-            404 => new ErrorException(this.Parser.Parse<Error>(response.Content)),
-            500 => new ErrorException(this.Parser.Parse<Error>(response.Content)),
-            _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
-        };
-    }
+            var data = this.Parser.Parse<Error>(response.Content);
 
+            throw new ErrorException(data);
+        }
+
+        if (statusCode == 404)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        if (statusCode == 500)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
     /**
      * Returns all pinned messages in the channel as an array of message objects.
      */
-    public async Task<List<Message>> GetPins(string channelId)
+    public async Task<System.Collections.Generic.List<Message>> GetPins(string channelId)
     {
         Dictionary<string, object> pathParams = new();
         pathParams.Add("channel_id", channelId);
@@ -81,20 +83,39 @@ public class ChannelTag : TagAbstract {
         RestRequest request = new(this.Parser.Url("/channels/:channel_id/pins", pathParams), Method.Get);
         this.Parser.Query(request, queryParams, queryStructNames);
 
+
         RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
         if (response.IsSuccessful)
         {
-            return this.Parser.Parse<List<Message>>(response.Content);
+            var data = this.Parser.Parse<System.Collections.Generic.List<Message>>(response.Content);
+
+            return data;
         }
 
-        throw (int) response.StatusCode switch
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 400)
         {
-            400 => new ErrorException(this.Parser.Parse<Error>(response.Content)),
-            404 => new ErrorException(this.Parser.Parse<Error>(response.Content)),
-            500 => new ErrorException(this.Parser.Parse<Error>(response.Content)),
-            _ => throw new UnknownStatusCodeException("The server returned an unknown status code"),
-        };
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        if (statusCode == 404)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        if (statusCode == 500)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
 
 

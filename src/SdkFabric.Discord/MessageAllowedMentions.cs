@@ -8,11 +8,11 @@ namespace SdkFabric.Discord;
 public class MessageAllowedMentions
 {
     [JsonPropertyName("parse")]
-    public List<string>? Parse { get; set; }
+    public System.Collections.Generic.List<string>? Parse { get; set; }
     [JsonPropertyName("roles")]
-    public List<string>? Roles { get; set; }
+    public System.Collections.Generic.List<string>? Roles { get; set; }
     [JsonPropertyName("users")]
-    public List<string>? Users { get; set; }
+    public System.Collections.Generic.List<string>? Users { get; set; }
     [JsonPropertyName("replied_user")]
     public bool? RepliedUser { get; set; }
 }

@@ -14,7 +14,7 @@ public class Message
     [JsonPropertyName("tts")]
     public bool? Tts { get; set; }
     [JsonPropertyName("embeds")]
-    public List<MessageEmbed>? Embeds { get; set; }
+    public System.Collections.Generic.List<MessageEmbed>? Embeds { get; set; }
     [JsonPropertyName("allowed_mentions")]
     public MessageAllowedMentions? AllowedMentions { get; set; }
     [JsonPropertyName("message_reference")]
