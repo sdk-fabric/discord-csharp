@@ -28,6 +28,14 @@ public class Client : ClientAbstract
         );
     }
 
+    public MessageTag Message()
+    {
+        return new MessageTag(
+            this.HttpClient,
+            this.Parser
+        );
+    }
+
     public UserTag User()
     {
         return new UserTag(
@@ -41,5 +49,10 @@ public class Client : ClientAbstract
     public static Client Build(string token)
     {
         return new Client("https://discord.com/api/v10", new HttpBearer(token));
+    }
+
+    public static Client BuildAnonymous()
+    {
+        return new Client("https://discord.com/api/v10", new Anonymous());
     }
 }
