@@ -22,7 +22,7 @@ public class UserTag : TagAbstract {
     /**
      * Returns the user object of the requester&#039;s account. For OAuth2, this requires the identify scope, which will return the object without an email, and optionally the email scope, which returns the object with an email.
      */
-    public async Task<User> Get()
+    public async Task<User> GetCurrent()
     {
         Dictionary<string, object> pathParams = new();
 
@@ -44,6 +44,48 @@ public class UserTag : TagAbstract {
         }
 
         var statusCode = (int) response.StatusCode;
+        if (statusCode >= 0 && statusCode <= 999)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Returns a user object for a given user ID.
+     */
+    public async Task<User> Get(string userId)
+    {
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("user_id", userId);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/users/:user_id", pathParams), Method.Get);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<User>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode >= 0 && statusCode <= 999)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
         throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
 

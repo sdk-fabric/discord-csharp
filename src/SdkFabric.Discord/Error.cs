@@ -4,13 +4,19 @@
  */
 
 using System.Text.Json.Serialization;
+
 namespace SdkFabric.Discord;
+
 public class Error
 {
     [JsonPropertyName("code")]
     public int? Code { get; set; }
+
     [JsonPropertyName("message")]
     public string? Message { get; set; }
+
     [JsonPropertyName("errors")]
     public object? Errors { get; set; }
+
 }
+

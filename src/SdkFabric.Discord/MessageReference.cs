@@ -4,15 +4,22 @@
  */
 
 using System.Text.Json.Serialization;
+
 namespace SdkFabric.Discord;
+
 public class MessageReference
 {
     [JsonPropertyName("message_id")]
     public string? MessageId { get; set; }
+
     [JsonPropertyName("channel_id")]
     public string? ChannelId { get; set; }
+
     [JsonPropertyName("guild_id")]
     public string? GuildId { get; set; }
+
     [JsonPropertyName("fail_if_not_exists")]
     public bool? FailIfNotExists { get; set; }
+
 }
+
