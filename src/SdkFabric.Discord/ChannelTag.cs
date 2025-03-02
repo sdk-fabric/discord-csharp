@@ -92,6 +92,41 @@ public class ChannelTag : TagAbstract {
         throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
     /**
+     * Delete a channel, or close a private message. Requires the MANAGE_CHANNELS permission for the guild, or MANAGE_THREADS if the channel is a thread. Deleting a category does not delete its child channels; they will have their parent_id removed and a Channel Update Gateway event will fire for each of them. Returns a channel object on success. Fires a Channel Delete Gateway event (or Thread Delete if the channel was a thread).
+     */
+    public async Task<Channel> Delete(string channelId)
+    {
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("channel_id", channelId);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/channels/:channel_id", pathParams), Method.Delete);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<Channel>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode >= 0 && statusCode <= 999)
+        {
+            var data = this.Parser.Parse<Error>(response.Content);
+
+            throw new ErrorException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
      * Returns all pinned messages in the channel as an array of message objects.
      */
     public async Task<System.Collections.Generic.List<Message>> GetPins(string channelId)
