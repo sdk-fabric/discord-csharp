@@ -1,9 +1,4 @@
 {
-  "typehub_user": "sdkfabric",
-  "typehub_document": "discord",
-  "github_user": "sdk-fabric",
-  "github_repository": "discord-csharp",
-
   "namespace": "SdkFabric.Discord",
   "company": "Apioo",
   "description": "Discord C# SDK managed by SDK Fabric",
