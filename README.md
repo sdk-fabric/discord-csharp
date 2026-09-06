@@ -1,30 +1,59 @@
 
-# Discord SDK
+# discord-csharp
 
-This SDK is managed by the [SDK Fabric](https://sdk-fabric.org/) project.
-Our goal is to build a global infrastructure to automatically generate
-an SDK for every API, please take a look at our website for more information.
+This [SDK](https://github.com/sdk-fabric/discord-csharp) is managed by the [SDK Fabric](https://sdk-fabric.org/) project, a global infrastructure to
+automatically generate SDKs for every API.
 
-## Contribution
-
-Please do not create a pull requests at this repository since the code is
-automatically generated. If an operation or type is missing at the client SDK
-please register at the [TypeHub](https://typehub.cloud/) platform and create
-a pull request at the [Discord](https://app.typehub.cloud/d/sdkfabric/discord)
-specification. The system will then automatically create a GIT commit and update
-the code.
+You can find more information about this SDK at [TypeHub](https://typehub.cloud/):
+https://app.typehub.cloud/d/sdkfabric/discord
 
 ## Usage
-
-The following example shows how you initialize the client:
 
 ```csharp
 using SdkFabric.Discord.Client;
 
 Client client = Client.Build("[access_token]")
 
-// @TODO use the client
-```
+// Get a channel by ID.
+Channel response = client.Channel().Get("channel_id");
 
-You can find all available operations and types at:
-https://app.typehub.cloud/d/sdkfabric/discord
+// Update a channel's settings.
+Channel response = client.Channel().Update("channel_id", new ChannelUpdate());
+
+// Delete a channel, or close a private message.
+Channel response = client.Channel().Delete("channel_id");
+
+// Returns all pinned messages in the channel as an array of message objects.
+List<Message> response = client.Channel().Getpins("channel_id");
+
+// Create a new invite object for the channel.
+ChannelInvite response = client.Channel().Createinvite("channel_id", new ChannelInvite());
+
+// Retrieves the messages in a channel.
+List<Message> response = client.Message().Getall("channel_id", "around", "before", "after", 1);
+
+// Retrieves a specific message in the channel.
+Message response = client.Message().Get("channel_id", "message_id");
+
+// Post a message to a guild text or DM channel.
+Message response = client.Message().Create("channel_id", new Message());
+
+// Edit a previously sent message.
+Message response = client.Message().Update("channel_id", "message_id", new Message());
+
+// Delete a message.
+object response = client.Message().Remove("channel_id", "message_id");
+
+// Crosspost a message in an Announcement Channel to following channels.
+Message response = client.Message().Crosspost("channel_id", "message_id");
+
+List<User> response = client.Message().Getreactionsbyemoji("channel_id", "message_id", "emoji", 1, "after", 1);
+
+object response = client.Message().Deleteallreactions("channel_id", "message_id");
+
+// Returns the user object of the requester's account.
+User response = client.User().Getcurrent();
+
+// Returns a user object for a given user ID.
+User response = client.User().Get("user_id");
+```
